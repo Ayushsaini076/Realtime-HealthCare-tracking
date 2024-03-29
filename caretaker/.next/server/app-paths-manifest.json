@@ -1,0 +1,7 @@
+{
+  "/(main)/dashboard/user/page": "app/(main)/dashboard/user/page.js",
+  "/(main)/dashboard/page": "app/(main)/dashboard/page.js",
+  "/(main)/conversations/page": "app/(main)/conversations/page.js",
+  "/(main)/dashboard/doctors/page": "app/(main)/dashboard/doctors/page.js",
+  "/(main)/history/page": "app/(main)/history/page.js"
+}
