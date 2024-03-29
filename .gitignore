@@ -13,8 +13,8 @@
 /coverage
 
 # next.js
-/.next/
-/out/
+/caretaker/.next/
+/caretaker/out/
 
 # production
 /build

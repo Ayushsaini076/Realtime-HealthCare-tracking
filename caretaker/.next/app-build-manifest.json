@@ -1,10 +1,5 @@
 {
   "pages": {
-    "/(main)/dashboard/user/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/(main)/dashboard/user/page.js"
-    ],
     "/layout": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
@@ -22,10 +17,10 @@
       "static/chunks/main-app.js",
       "static/chunks/app/(main)/dashboard/page.js"
     ],
-    "/(main)/dashboard/doctors/page": [
+    "/(main)/dashboard/user/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/(main)/dashboard/doctors/page.js"
+      "static/chunks/app/(main)/dashboard/user/page.js"
     ],
     "/(main)/conversations/page": [
       "static/chunks/webpack.js",
@@ -46,6 +41,11 @@
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
       "static/chunks/app/page.js"
+    ],
+    "/(main)/dashboard/doctors/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/(main)/dashboard/doctors/page.js"
     ]
   }
 }

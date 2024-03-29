@@ -1,4 +1,4 @@
-// File: E:\Explore\new\caretakr\app\(main)\dashboard\page.jsx
+// File: E:\Explore\new\caretaker\app\(main)\dashboard\page.jsx
 import * as entry from '../../../../../app/(main)/dashboard/page.js'
 import type { ResolvingMetadata, ResolvingViewport } from 'next/dist/lib/metadata/types/metadata-interface.js'
 

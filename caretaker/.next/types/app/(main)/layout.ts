@@ -1,4 +1,4 @@
-// File: E:\Explore\new\caretakr\app\(main)\layout.jsx
+// File: E:\Explore\new\caretaker\app\(main)\layout.jsx
 import * as entry from '../../../../app/(main)/layout.js'
 import type { ResolvingMetadata, ResolvingViewport } from 'next/dist/lib/metadata/types/metadata-interface.js'
 
