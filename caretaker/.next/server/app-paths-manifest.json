@@ -1,6 +1,8 @@
 {
   "/page": "app/page.js",
-  "/(main)/dashboard/page": "app/(main)/dashboard/page.js",
-  "/(main)/dashboard/user/page": "app/(main)/dashboard/user/page.js",
-  "/(main)/dashboard/doctors/page": "app/(main)/dashboard/doctors/page.js"
+  "/meet/dashboard/page": "app/meet/dashboard/page.js",
+  "/conversations/[id]/page": "app/conversations/[id]/page.js",
+  "/favicon.ico/route": "app/favicon.ico/route.js",
+  "/(main)/dashboard/doctors/page": "app/(main)/dashboard/doctors/page.js",
+  "/(main)/dashboard/user/page": "app/(main)/dashboard/user/page.js"
 }

@@ -1,10 +1,20 @@
 {
   "pages": {
+    "/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/page.js"
+    ],
     "/layout": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
       "static/css/app/layout.css",
       "static/chunks/app/layout.js"
+    ],
+    "/(main)/dashboard/doctors/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/(main)/dashboard/doctors/page.js"
     ],
     "/(main)/layout": [
       "static/chunks/webpack.js",
@@ -12,40 +22,20 @@
       "static/css/app/(main)/layout.css",
       "static/chunks/app/(main)/layout.js"
     ],
-    "/(main)/dashboard/page": [
+    "/conversations/[id]/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/(main)/dashboard/page.js"
+      "static/chunks/app/conversations/[id]/page.js"
+    ],
+    "/meet/dashboard/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/meet/dashboard/page.js"
     ],
     "/(main)/dashboard/user/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
       "static/chunks/app/(main)/dashboard/user/page.js"
-    ],
-    "/(main)/conversations/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/(main)/conversations/page.js"
-    ],
-    "/(main)/documents/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/(main)/documents/page.js"
-    ],
-    "/(main)/history/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/(main)/history/page.js"
-    ],
-    "/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/page.js"
-    ],
-    "/(main)/dashboard/doctors/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/(main)/dashboard/doctors/page.js"
     ]
   }
 }
