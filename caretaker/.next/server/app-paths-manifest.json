@@ -1,6 +1,8 @@
 {
-  "/page": "app/page.js",
-  "/(main)/dashboard/page": "app/(main)/dashboard/page.js",
+  "/api/chatbot/route": "app/api/chatbot/route.js",
+  "/(main)/history/page": "app/(main)/history/page.js",
   "/(main)/dashboard/user/page": "app/(main)/dashboard/user/page.js",
+  "/(main)/chatbot/page": "app/(main)/chatbot/page.js",
+  "/(main)/dashboard/page": "app/(main)/dashboard/page.js",
   "/(main)/dashboard/doctors/page": "app/(main)/dashboard/doctors/page.js"
 }

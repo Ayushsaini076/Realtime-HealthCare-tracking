@@ -12,15 +12,37 @@
       "static/css/app/(main)/layout.css",
       "static/chunks/app/(main)/layout.js"
     ],
+    "/(main)/history/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/css/app/(main)/history/page.css",
+      "static/chunks/app/(main)/history/page.js"
+    ],
+    "/(main)/dashboard/user/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/css/app/(main)/dashboard/user/page.css",
+      "static/chunks/app/(main)/dashboard/user/page.js"
+    ],
+    "/(main)/chatbot/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/(main)/chatbot/page.js"
+    ],
+    "/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/page.js"
+    ],
     "/(main)/dashboard/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
       "static/chunks/app/(main)/dashboard/page.js"
     ],
-    "/(main)/dashboard/user/page": [
+    "/(main)/dashboard/doctors/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/(main)/dashboard/user/page.js"
+      "static/chunks/app/(main)/dashboard/doctors/page.js"
     ],
     "/(main)/conversations/page": [
       "static/chunks/webpack.js",
@@ -32,20 +54,10 @@
       "static/chunks/main-app.js",
       "static/chunks/app/(main)/documents/page.js"
     ],
-    "/(main)/history/page": [
+    "/not-found": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/(main)/history/page.js"
-    ],
-    "/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/page.js"
-    ],
-    "/(main)/dashboard/doctors/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/(main)/dashboard/doctors/page.js"
+      "static/chunks/app/not-found.js"
     ]
   }
 }
