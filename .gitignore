@@ -18,6 +18,7 @@
 /caretaker/.env
 /backend/.env
 /fit-band-server/.env
+
 # production
 /build
 

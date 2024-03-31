@@ -10,6 +10,7 @@ import {
   CircleUserRound,
   History,
   LogOut,
+  BotMessageSquare,
   MessagesSquare,
 } from "lucide-react";
 import Image from "next/image";
@@ -40,12 +41,19 @@ const routes = [
     href: "/dashboard/doctors",
     color: "text-pink-500",
   },
+  // {
+  //   label: "Conversations",
+  //   icon: MessagesSquare,
+  //   href: "/conversations",
+  //   color: "text-orange-500",
+  // },
   {
-    label: "Conversations",
-    icon: MessagesSquare,
-    href: "/conversations",
-    color: "text-orange-500",
+    label: "ChatBot",
+    icon: BotMessageSquare,
+    href: "/chatbot",
+    color: "text-pink-500",
   },
+
   {
     label: "Documents",
     icon: ClipboardPlus,
