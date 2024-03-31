@@ -12,15 +12,30 @@
       "static/css/app/(main)/layout.css",
       "static/chunks/app/(main)/layout.js"
     ],
-    "/(main)/dashboard/page": [
+    "/(main)/history/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/(main)/dashboard/page.js"
+      "static/chunks/app/(main)/history/page.js"
     ],
     "/(main)/dashboard/user/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
       "static/chunks/app/(main)/dashboard/user/page.js"
+    ],
+    "/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/page.js"
+    ],
+    "/(main)/dashboard/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/(main)/dashboard/page.js"
+    ],
+    "/(main)/dashboard/doctors/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/(main)/dashboard/doctors/page.js"
     ],
     "/(main)/conversations/page": [
       "static/chunks/webpack.js",
@@ -31,21 +46,6 @@
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
       "static/chunks/app/(main)/documents/page.js"
-    ],
-    "/(main)/history/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/(main)/history/page.js"
-    ],
-    "/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/page.js"
-    ],
-    "/(main)/dashboard/doctors/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/(main)/dashboard/doctors/page.js"
     ]
   }
 }
