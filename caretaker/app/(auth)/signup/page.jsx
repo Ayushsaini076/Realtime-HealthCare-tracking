@@ -1,9 +1,14 @@
 "use client";
+import { register, signUpGoogle } from "@/actions/user/auth";
 import { ActionButton } from "@/components/actionButton";
 import { SelectInput } from "@/components/selectInput";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import React, { useRef, useState } from "react";
+import toast from "react-hot-toast";
+import { useGoogleLogin } from "@react-oauth/google";
+import { CldUploadWidget } from 'next-cloudinary';
 
 const countries = [
   "Afghanistan",
@@ -257,16 +262,117 @@ const bloodGroupsOptions = [
   },
 ];
 
+const userRoleOptions = [
+  {
+    id: "patient",
+    displayName: "Patient",
+  },
+  {
+    id: "doctor",
+    displayName: "Doctor",
+  },
+];
+
 const SignUpPage = () => {
+  const router = useRouter();
   const ref = useRef();
 
-  const [gender, setGender] = useState();
-  const [country, setCountry] = useState();
+  const [loading, setLoading] = useState(false);
+
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [gender, setGender] = useState("");
+  const [country, setCountry] = useState("");
   const [height, setHeight] = useState("");
   const [weight, setWeight] = useState("");
-  const [maritalStatus, setMaritalStatus] = useState();
-  const [bloodGroup, setBloodGroup] = useState();
-  const [filePreview, setFilePreview] = useState();
+  const [maritalStatus, setMaritalStatus] = useState("");
+  const [bloodGroup, setBloodGroup] = useState("");
+  const [userRole, setUserRole] = useState("");
+  const [filePreview, setFilePreview] = useState("");
+
+  async function handleGoogleRegistrationSuccess(tokenResponse) {
+    const accessToken = tokenResponse.access_token;
+    const { result, message } = await signUpGoogle(accessToken);
+    if (result) {
+      console.log(result);
+      router.push(`/dashboard/${result.id}`);
+    } else {
+      toast.error(message);
+    }
+    setLoading(false);
+  }
+
+  const register_google = useGoogleLogin({
+    onSuccess: handleGoogleRegistrationSuccess,
+  });
+
+  const handleSubmit = async () => {
+    try {
+      // access image file using ref.current.files[0]
+      // convertToBase64 and pass to backend
+      setLoading(true);
+      if (
+        !username ||
+        !email ||
+        !password ||
+        !gender ||
+        !country ||
+        !height ||
+        !weight ||
+        !bloodGroup ||
+        !userRole ||
+        !maritalStatus ||
+        !filePreview
+      ) {
+        toast.error("Please complete all fields");
+      }
+
+      var mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+      if (!email.match(mailformat)) {
+        toast.error("Invalid email!");
+        return;
+      }
+
+      if (password.length < 8) {
+        toast.error("Password must be atleast 8 characters long");
+        return;
+      }
+
+      var numberFormat = /^^\d+(\.\d+)?$/;
+      if (!height.match(numberFormat) || !weight.match(numberFormat)) {
+        /^^\d+(\.\d+)?$/;
+        toast.error("Please envter valid numeric values");
+        return;
+      }
+      const base64 = await convertToBase64(ref.current.files[0]);
+
+      const { result, message } = await register({
+        username,
+        email,
+        password,
+        gender,
+        country,
+        height,
+        weight,
+        bloodGroup,
+        userRole,
+        maritalStatus,
+        profile_pic: base64,
+      });
+
+      if (result) {
+        router.push("/dashboard");
+      } else {
+        toast.error(message);
+      }
+    } catch (error) {
+      console.log("Signup failed", error.message);
+      toast.error(error.message);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const handleGender = (value) => {
     console.log(value);
@@ -278,8 +384,7 @@ const SignUpPage = () => {
   };
 
   const handleHeight = (e) => {
-    const regex = /^[1-9]\d*$/;
-    if (regex.test(e.target.value)) setHeight(e.target.value);
+    if (e.target.value[0] != "0") setHeight(e.target.value);
     else setHeight("");
   };
   const handleWeight = (e) => {
@@ -303,9 +408,9 @@ const SignUpPage = () => {
     setFilePreview(URL.createObjectURL(e.target.files[0]));
   };
 
-  const handleSubmit = () => {
-    // access image file using ref.current.files[0]
-    // convertToBase64 and pass to backend
+  const handleUserRole = (value) => {
+    console.log(value);
+    setUserRole(value);
   };
 
   function convertToBase64(file) {
@@ -327,14 +432,25 @@ const SignUpPage = () => {
         {/* <Image src="/logo.png " width={20} height={20} /> */}
         {/* <h1>Caretakr</h1> */}
         <span>
-        Already have an account?
-          <Link href="/signin" className="hover:text-blue-800" > Sign in</Link>
+          Already have an account?
+          <Link href="/signin" className="hover:text-blue-800">
+            {" "}
+            Sign in
+          </Link>
         </span>
       </div>
       <div className="bg-white rounded-sm w-[60%] h-fit p-8 flex flex-col justify-center align-items ">
-        <h2 className="text-6xl mb-[3.5rem] font-bold ">Sign up</h2>
+        <h2 className="text-6xl mb-[3.5rem] font-bold ">
+          {loading ? "Loading..." : "Sign up"}
+        </h2>
         <div className="flex flex-col w-[100%] justify-center items-center ">
-          <ActionButton className="font-bold text-xl w-[25vw]">
+          <ActionButton
+            onClick={() => {
+              setLoading(true);
+              register_google();
+            }}
+            className="font-bold text-xl w-[25vw]"
+          >
             Google
           </ActionButton>
           <div className="border-t-2 border-gray-500 flex flex-col gap-4 text-xl mt-[2rem] pt-[2rem] ">
@@ -344,23 +460,23 @@ const SignUpPage = () => {
                 <input
                   type="text"
                   placeholder="Full name"
-                  className="bg-transparent w-[25vw] broder-solid border-2 border-transparent hover:border-gray-400 focus:border-gray-400 px-6 py-4 bg-gray-200 "
-                  // value={user.name}
-                  // onChange={(e) => setUser({...user, name: e.target.value})}
+                  className="bg-transparent w-[25vw] broder-solid border-2 border-gray-300 hover:border-gray-400 focus:border-gray-400 px-6 py-4 bg-gray-200 "
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
                 />
                 <input
                   type="email"
                   placeholder="Email"
-                  className="bg-transparent w-[25vw] broder-solid border-2 border-transparent hover:border-gray-400 focus:border-gray-400 px-6 py-4 bg-gray-200 "
-                  // value={user.email}
-                  // onChange={(e) => setUser({...user, email: e.target.value})}
+                  className="bg-transparent w-[25vw] broder-solid border-2 border-gray-300 hover:border-gray-400 focus:border-gray-400 px-6 py-4 bg-gray-200 "
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
                 />
                 <input
                   type="password"
                   placeholder="Password min. 8 characters"
-                  className="bg-transparent w-[25vw] broder-solid border-2 border-transparent hover:border-gray-400 focus:border-gray-400 px-6 py-4 bg-gray-200 "
-                  // value={user.password}
-                  // onChange={(e) => setUser({...user, password: e.target.value})}
+                  className="bg-transparent w-[25vw] broder-solid border-2 border-gray-300 hover:border-gray-400 focus:border-gray-400 px-6 py-4 bg-gray-200 "
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
                 />
                 <div className="w-[25vw] broder-2 border-transparent flex justify-evenly items-center ">
                   <SelectInput
@@ -368,12 +484,14 @@ const SignUpPage = () => {
                     onChange={handleGender}
                     options={genderOptions}
                     className="w-[10vw] bg-gray-200"
+                    selectedValue={gender}
                   />
                   <SelectInput
                     title="Country"
                     onChange={handleCountry}
                     options={countryOptions}
                     className="w-[10vw] bg-gray-200"
+                    selectedValue={country}
                   />
                 </div>
                 <div className="w-[25vw] broder-2 flex justify-evenly ">
@@ -392,11 +510,20 @@ const SignUpPage = () => {
                     className="px-6 py-4 w-[10vw] bg-gray-200"
                   />
                 </div>
-                <div className="w-[25vw] broder-2 flex justify-center ">
+                <div className="w-[25vw] broder-2 flex justify-evenly ">
                   <SelectInput
                     title="Blood Group"
                     onChange={handleBloodGroup}
                     options={bloodGroupsOptions}
+                    className="w-[10vw] bg-gray-200"
+                    selectedValue={bloodGroup}
+                  />
+                  <SelectInput
+                    title="Role"
+                    onChange={handleUserRole}
+                    options={userRoleOptions}
+                    className="w-[10vw] bg-gray-200"
+                    selectedValue={userRole}
                   />
                 </div>
                 <div className="flex justify-evenly text-gray-400">
@@ -427,38 +554,15 @@ const SignUpPage = () => {
                   </div>
                 </div>
               </div>
-              <div className="w-[15vw] mx-5 my-2 border border-gray-300 rounded-md group hover:border-gray-500">
-                <label
-                  htmlFor="file-upload"
-                  className="cursor-pointer  w-[100%] h-[100%] flex flex-col justify-center items-center rounded-md p-2 "
-                >
-                  {filePreview ? (
-                    <Image
-                      src={filePreview}
-                      alt="profile_pic"
-                      width={200}
-                      height={200}
-                    />
-                  ) : (
-                    <span className="text-gray-400 group-hover:text-black" >Upload Image</span>
-                  )}
-                  <input
-                    ref={ref}
-                    type="file"
-                    name=""
-                    id="file-upload"
-                    onChange={handleImageFile}
-                    label="Image"
-                    accept=".jpeg, .png, .jpg"
-                    className="hidden"
-                  />
-                </label>
+              <div className="w-[15vw] mx-5 my-2 border-2 border-gray-300 rounded-md group hover:border-gray-500">
+                  
               </div>
             </div>
             <div className="mt-[2rem] m-auto">
               <ActionButton
                 className=" font-bold uppercase text-xl w-[25vw]"
                 onClick={handleSubmit}
+                disabled={loading}
               >
                 Sign Up
               </ActionButton>

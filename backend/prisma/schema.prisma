@@ -13,12 +13,34 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum Gender {
+  MALE
+  FEMALE
+}
+
+enum UserRole {
+  PATIENT
+  DOCTOR
+}
+
+enum MaritalStatus {
+  MARRIED
+  UNMARRIED
+}
 
 model User {
   id String @id @default(uuid())
   name String 
   email String @unique
   password String? 
+  gender Gender?
+  country String?
+  height Float?
+  weight Float?
+  bloodGroup String?
+  userRole UserRole @default(PATIENT)
+  maritalStatus MaritalStatus?
+  profile_pic String
 
   createdAt DateTime @default(now())
 }

@@ -14,20 +14,25 @@ const HomePage = () => {
             <span className="text-5xl font-bold">Caretackr</span>
           </div>
           <div className="flex flex-col gap-7 mt-[5rem]">
-            <h2 className="text-6xl font-bold">Track your health <br/> with ease!</h2>
+            <h2 className="text-6xl font-bold">
+              Track your health <br /> with ease!
+            </h2>
             <p className="text-lg">
-            A platform designed to provide information about <br/> health parameters and medical benefits:
+              A platform designed to provide information about <br /> health
+              parameters and medical benefits:
             </p>
           </div>
           <div className="mt-[3rem]">
-            <ActionButton className="font-bold uppercase text-xl">
-              <Link href="/signup">start now</Link>
-            </ActionButton>
+            <Link href="/signup">
+              <ActionButton className="font-bold uppercase text-xl">
+                start now
+              </ActionButton>
+            </Link>
           </div>
         </div>
       </section>
       <section className="flex flex-1 flex-col justify-center items-start pl-[10rem] ">
-          <Image src="/bro.png" alt="home_image" width={550} height={550} />
+        <Image src="/bro.png" alt="home_image" width={550} height={550} />
       </section>
     </main>
   );
