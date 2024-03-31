@@ -18,6 +18,8 @@
     "@radix-ui/react-dialog": "^1.0.5",
     "@radix-ui/react-label": "^2.0.2",
     "@radix-ui/react-slot": "^1.0.2",
+    "@react-oauth/google": "^0.12.1",
+    "@uploadthing/react": "^6.4.1",
     "axios": "^1.6.8",
     "chart.js": "^4.4.2",
     "class-variance-authority": "^0.7.0",
@@ -25,6 +27,7 @@
     "lucide-react": "^0.363.0",
     "next": "14.1.4",
     "openai": "^4.31.0",
+    "next-cloudinary": "^6.3.0",
     "react": "^18",
     "react-chartjs-2": "^5.2.0",
     "react-dom": "^18",
@@ -32,9 +35,12 @@
     "react-hot-toast": "^2.4.1",
     "tailwind-merge": "^2.2.2",
     "tailwindcss-animate": "^1.0.7",
-    "zod": "^3.22.4"
+    "zod": "^3.22.4",
+    "uploadthing": "^6.7.0"
   },
   "devDependencies": {
+    "@types/node": "20.11.30",
+    "@types/react": "18.2.73",
     "autoprefixer": "^10.0.1",
     "eslint": "^8",
     "eslint-config-next": "14.1.4",
