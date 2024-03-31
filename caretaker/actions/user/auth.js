@@ -23,7 +23,7 @@ export const signInGoogle = async (accessToken) => {
     const { data } = await API.post("/api/v1/login", {
       googleAccessToken: accessToken,
     });
-    return { result: data.success, message: "Login success" };
+    return { result: data.success, user: data.user, message: "Login success" };
   } catch (error) {
     console.log(error);
     return { result: false, message: "Login Failed" };
@@ -35,7 +35,11 @@ export const signUpGoogle = async (accessToken) => {
     const { data } = await API.post("/api/v1/register", {
       googleAccessToken: accessToken,
     });
-    return { result: data.success, message: "Registration success" };
+    return {
+      result: data.success,
+      user: data.user,
+      message: "Registration success",
+    };
   } catch (error) {
     console.log(error);
     return {
@@ -53,7 +57,11 @@ export async function register(user) {
       user,
       config
     );
-    return { result: data.success, message: "Registration Success " };
+    return {
+      result: data.success,
+      user: data.user,
+      message: "Registration Success ",
+    };
   } catch (error) {
     console.log(error);
     return {
@@ -66,9 +74,9 @@ export async function register(user) {
 
 export async function login(user) {
   try {
-    console.log(email);
+    console.log("user", user);
     const { data } = await axios.post(`${base_url}/api/v1/login`, user, config);
-    return { result: data.success, message: "Login Success " };
+    return { result: data.success, user: data.user, message: "Login Success " };
   } catch (error) {
     console.log(error);
     return { result: false, message: "Login Failed" };

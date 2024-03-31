@@ -1,5 +1,5 @@
 "use client";
-import { signInGoogle } from "@/actions/user/auth";
+import { login, signInGoogle } from "@/actions/user/auth";
 import { ActionButton } from "@/components/actionButton";
 import { useGoogleLogin } from "@react-oauth/google";
 import Link from "next/link";
@@ -20,7 +20,7 @@ const SignInPage = () => {
     const accessToken = tokenResponse.access_token;
     const { result, message } = await signInGoogle(accessToken);
     if (result) {
-      router.push(`/dashboard/${result.id}`);
+      router.push(`/dashboard`);
     } else {
       toast.error(message);
     }
@@ -36,10 +36,12 @@ const SignInPage = () => {
         toast.error("Please complete the fields !");
         return;
       }
-      console.log(user.email, user.password);
-      const { result, message } = await login({ email, password });
+      const { result, message } = await login({
+        email: user.email,
+        password: user.password,
+      });
       if (result) {
-        router.push(`/dashboard/${""}`);
+        router.push(`/dashboard`);
       } else {
         toast.error(message);
       }

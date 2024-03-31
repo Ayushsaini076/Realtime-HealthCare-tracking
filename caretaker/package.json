@@ -23,11 +23,12 @@
     "axios": "^1.6.8",
     "chart.js": "^4.4.2",
     "class-variance-authority": "^0.7.0",
+    "cloudinary": "^2.1.0",
     "clsx": "^2.1.0",
     "lucide-react": "^0.363.0",
     "next": "14.1.4",
-    "openai": "^4.31.0",
     "next-cloudinary": "^6.3.0",
+    "openai": "^4.31.0",
     "react": "^18",
     "react-chartjs-2": "^5.2.0",
     "react-dom": "^18",
@@ -35,8 +36,8 @@
     "react-hot-toast": "^2.4.1",
     "tailwind-merge": "^2.2.2",
     "tailwindcss-animate": "^1.0.7",
-    "zod": "^3.22.4",
-    "uploadthing": "^6.7.0"
+    "uploadthing": "^6.7.0",
+    "zod": "^3.22.4"
   },
   "devDependencies": {
     "@types/node": "20.11.30",
