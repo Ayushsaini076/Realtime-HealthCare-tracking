@@ -1,5 +1,5 @@
 "use client";
-import { signInGoogle } from "@/actions/user/auth";
+import { login, signInGoogle } from "@/actions/user/auth";
 import { ActionButton } from "@/components/actionButton";
 import { useGoogleLogin } from "@react-oauth/google";
 import Link from "next/link";
@@ -36,8 +36,10 @@ const SignInPage = () => {
         toast.error("Please complete the fields !");
         return;
       }
-      console.log(user.email, user.password);
-      const { result, message } = await login({ email, password });
+      const { result, message } = await login({
+        email: user.email,
+        password: user.password,
+      });
       if (result) {
         router.push(`/dashboard`);
       } else {

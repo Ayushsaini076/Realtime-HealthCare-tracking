@@ -23,55 +23,55 @@ Chart.register(...registerables);
 const arr = [
   {
     id: "1",
-    icon: <Droplet size={35} color="blue" />,
+    icon: <Droplet size={35} color="blue"/>,
     parameter: "Blood Pressure",
     value: "110/70",
-    icon2: <TrendingUp color="green" />,
+    icon2: <TrendingUp color="green"/>,
     description: "92% higher than last time",
   },
   {
     id: "2",
-    icon: <HeartPulse size={35} color="blue" />,
+    icon: <HeartPulse size={35} color="blue"/>,
     parameter: "Heart Rate",
     value: "85 BPM",
-    icon2: <TrendingDown color="red" />,
+    icon2:<TrendingDown color="red"/>,
     description: "5% lesser than last time",
   },
   {
     id: "3",
-    icon: <MedicationLiquidIcon fontSize="large" color="primary" />,
+    icon: <MedicationLiquidIcon fontSize="large" color="primary"/>,
     parameter: "Glucose Level",
     value: "75-90",
-    icon2: <TrendingDown color="red" />,
+    icon2:<TrendingDown color="red"/>,
     description: "20% lesser than last time",
   },
   {
     id: "4",
-    icon: <Bloodtype fontSize="large" color="primary" />,
+    icon: <Bloodtype fontSize="large" color="primary"/>,
     parameter: "Blood Count",
     value: "9.456/ml",
-    icon2: <TrendingDown color="red" />,
+    icon2:<TrendingDown color="red"/>,
     description: "25% lesser than last time",
   },
 ];
 
 const docs = [
   {
-    id: "1",
-    heading: "Medical Check Up Report",
-    size: "2 Mb",
+    id:"1",
+    heading:"Medical Check Up Report",
+    size:"2 Mb",
   },
   {
-    id: "2",
-    heading: "Blood Count Report",
-    size: "4 Mb",
+    id:"2",
+    heading:"Blood Count Report",
+    size:"4 Mb",
   },
   {
-    id: "3",
-    heading: "Glucose Level Report",
-    size: "12 Mb",
+    id:"3",
+    heading:"Glucose Level Report",
+    size:"12 Mb",
   },
-];
+]
 
 const Card = (props) => {
   return (

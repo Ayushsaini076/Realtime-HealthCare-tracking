@@ -44,8 +44,8 @@ exports.registerUser = catchAsyncErrors(async (req, res, next) => {
       password: z.string().min(8),
       gender: z.string().min(1),
       country: z.string().min(1),
-      height: z.number().minValue(1),
-      weight: z.number().minValue(1),
+      height: z.number().min(1),
+      weight: z.number().min(1),
       bloodGroup: z.string().min(1),
       userRole: z.string().min(1),
       maritalStatus: z.string().min(1),
@@ -56,15 +56,13 @@ exports.registerUser = catchAsyncErrors(async (req, res, next) => {
     if (safeParseResult.error)
       return next(new ErrorHandler(safeParseResult.error, 400));
 
-    const { user } = req.body;
-
-    const userExist = prisma.user.findUnique({
+    const user = req.body;
+    const userExist = await prisma.user.findUnique({
       where: {
         email: user.email,
       },
     });
-
-    if (userExist) return next(new ErrorHandle("User already exists", 400));
+    if (userExist) return next(new ErrorHandler("User already exists", 400));
 
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(user.password, salt);
@@ -72,6 +70,9 @@ exports.registerUser = catchAsyncErrors(async (req, res, next) => {
     const newUser = await prisma.user.create({
       data: {
         ...user,
+        gender: user.gender.toUpperCase(),
+        userRole: user.userRole.toUpperCase(),
+        maritalStatus: user.maritalStatus.toUpperCase(),
         password: hashedPassword,
       },
     });
@@ -107,7 +108,7 @@ exports.loginUser = catchAsyncErrors(async (req, res, next) => {
       return next(new ErrorHandler(safeParseResult.error, 400));
 
     const { email, password } = req.body;
-
+    console.log(req.body);
     const user = await prisma.user.findFirst({ where: { email: email } });
     console.log(user);
     if (!user) return next(new ErrorHandler("Invalid email or password", 401));

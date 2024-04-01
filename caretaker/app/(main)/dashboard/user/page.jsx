@@ -36,7 +36,7 @@ const boxs = [
     condition: "Above norm",
     value: "120/89",
     measurement: "mmHg",
-    graph: <Graph data={data1} />, // Placeholder for graph component
+    graph: <Graph data={data1}   />, // Placeholder for graph component
     color: "text-violet-500",
   },
   {

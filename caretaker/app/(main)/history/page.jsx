@@ -24,7 +24,7 @@ const page = () => {
   const [avgvalue, setavgValue] = useState({});
 
   return (
-    <div className=" bg-blue-50 h-screen w-[85vw] flex overflow-auto flex-col">
+    <div className=" bg-blue-50 h-screen w-[100vw] md:w-[85vw] flex overflow-auto flex-col">
       <div className="p-5 w-full  text-wrap ">
         <div className=" w-full  bg-white rounded-lg shadow-md">
           <div className=" flex justify-strat w-1/4 pt-2 pb-2  pl-2 rounded-lg mb-2">
@@ -33,7 +33,7 @@ const page = () => {
               Visited Doctors
             </h1>
           </div>
-          <div className="flex flex-row gap-6 w-full justify-around items-center p-2 rounded-lg pb-5">
+          <div className="flex flex-col md:flex-row gap-6 w-full justify-around items-center p-2 rounded-lg pb-5">
             {visitedDoctors.map((doct) => (
               <Card className="  w-full hover:shadow-md transition cursor-pointer bg-teal-50 ">
                 <div className="flex flew-row justify-start m-2 p-2">
@@ -85,8 +85,8 @@ const page = () => {
               Latest Diagnoses
             </h1>
           </div>
-          <div className="flex flex-row gap-10 w-full justify-around items-center  p-5 pb-5 pt-3 rounded-lg">
-            <Card className="w-[50%]  hover:shadow-md transition cursor-pointer bg-lime-600/10">
+          <div className="flex flex-col md:flex-row gap-10 w-full justify-around items-center  p-5 pb-5 pt-3 rounded-lg">
+            <Card className="w-min md:w-[50%]  hover:shadow-md transition cursor-pointer bg-lime-600/10">
               <div className="flex flx-row justify-start m-2 p-2 items-center">
                 <div className=" rounded-[50%] p-4 bg-white h-20 w-20 items-center relative  ">
                   <CoronavirusIcon
@@ -118,7 +118,7 @@ const page = () => {
                 </CardContent>
               </div>
             </Card>
-            <Card className="w-[50%]  hover:shadow-md transition cursor-pointer bg-cyan-600/10">
+            <Card className="w-min md:w-[50%]  hover:shadow-md transition cursor-pointer bg-cyan-600/10">
               <div className="flex flx-row justify-start m-2 p-2 items-center">
                 <div className=" rounded-[50%] p-4 bg-white h-20 w-20 items-center relative  ">
                   <VaccinesOutlinedIcon
@@ -157,7 +157,7 @@ const page = () => {
               Health Averages
             </h1>
           </div>
-          <div className="flex flex-row gap-6 w-full justify-around items-center p-2 rounded-lg pl-5 h-auto pb-10">
+          <div className="flex flex-col md:flex-row gap-6 w-full justify-around items-center p-2 rounded-lg pl-5 h-auto pb-10">
             <div className="w-[30%] h-[18rem] hover:shadow-md transition cursor-pointer bg-red-50 pb-5 rounded-lg ">
               <div className="flex flex-col justify-center items-center m-2 p-2">
                 <div className="rounded-[50%] p-5 bg-white h-20 w-20 items-center relative">

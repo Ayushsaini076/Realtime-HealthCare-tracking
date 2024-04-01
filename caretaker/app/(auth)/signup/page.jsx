@@ -8,7 +8,7 @@ import { useRouter } from "next/navigation";
 import React, { useRef, useState } from "react";
 import toast from "react-hot-toast";
 import { useGoogleLogin } from "@react-oauth/google";
-import { CldUploadWidget } from 'next-cloudinary';
+import { CldImage, CldUploadWidget } from "next-cloudinary";
 
 const countries = [
   "Afghanistan",
@@ -290,13 +290,18 @@ const SignUpPage = () => {
   const [bloodGroup, setBloodGroup] = useState("");
   const [userRole, setUserRole] = useState("");
   const [filePreview, setFilePreview] = useState("");
+  const [image, setImage] = useState({
+    publicId: "",
+    width: 0,
+    height: 0,
+    secureURL: "",
+  });
 
   async function handleGoogleRegistrationSuccess(tokenResponse) {
     const accessToken = tokenResponse.access_token;
     const { result, message } = await signUpGoogle(accessToken);
     if (result) {
-      console.log(result);
-      router.push(`/dashboard/${result.id}`);
+      router.push(`/dashboard`);
     } else {
       toast.error(message);
     }
@@ -323,7 +328,7 @@ const SignUpPage = () => {
         !bloodGroup ||
         !userRole ||
         !maritalStatus ||
-        !filePreview
+        !image.secureURL
       ) {
         toast.error("Please complete all fields");
       }
@@ -345,20 +350,18 @@ const SignUpPage = () => {
         toast.error("Please envter valid numeric values");
         return;
       }
-      const base64 = await convertToBase64(ref.current.files[0]);
-
       const { result, message } = await register({
-        username,
+        name: username,
         email,
         password,
         gender,
         country,
-        height,
-        weight,
+        height: parseInt(height),
+        weight: parseInt(weight),
         bloodGroup,
         userRole,
         maritalStatus,
-        profile_pic: base64,
+        profile_pic: image.secureURL,
       });
 
       if (result) {
@@ -413,18 +416,20 @@ const SignUpPage = () => {
     setUserRole(value);
   };
 
-  function convertToBase64(file) {
-    return new Promise((resolve, reject) => {
-      const fileReader = new FileReader();
-      fileReader.readAsDataURL(file);
-      fileReader.onload = () => {
-        resolve(fileReader.result);
-      };
-      fileReader.onerror = (error) => {
-        reject(error);
-      };
-    });
-  }
+  const onUploadSuccessHandler = (result) => {
+    console.log(result);
+    setImage(() => ({
+      publicId: result?.info?.public_id,
+      width: result?.info?.width,
+      height: result?.info?.height,
+      secureURL: result?.info?.secure_url,
+    }));
+    console.log(image);
+  };
+
+  const onUploadErrorHandler = () => {
+    console.log("hiiii");
+  };
 
   return (
     <div className="h-[100vh] w-[100vw] flex items-center justify-center bg-blue-50">
@@ -555,7 +560,29 @@ const SignUpPage = () => {
                 </div>
               </div>
               <div className="w-[15vw] mx-5 my-2 border-2 border-gray-300 rounded-md group hover:border-gray-500">
-                  
+                <CldUploadWidget
+                  uploadPreset="jsm_caretakr"
+                  onSuccess={onUploadSuccessHandler}
+                >
+                  {({ open }) => {
+                    return (
+                      <button onClick={() => open()}>Upload an Image</button>
+                    );
+                  }}
+                </CldUploadWidget>
+
+                {image.publicId && (
+                  <div className="cursor-pointer overflow-hidden rounded-[10px]">
+                    <CldImage
+                      cloudName="dcnpnyqvb"
+                      width="960"
+                      height="600"
+                      src={image.publicId}
+                      sizes="100vw"
+                      alt="Description of my image"
+                    />
+                  </div>
+                )}
               </div>
             </div>
             <div className="mt-[2rem] m-auto">
