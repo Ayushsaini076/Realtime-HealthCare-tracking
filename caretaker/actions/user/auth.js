@@ -82,3 +82,14 @@ export async function login(user) {
     return { result: false, message: "Login Failed" };
   }
 }
+
+export async function updateDocuments(url) {
+  try {
+    console.log("here");
+    const { data } = await axios.patch(`${base_url}/api/v1/documents`, url);
+    return { result: data.success, message: "Document added" };
+  } catch (error) {
+    console.log(error);
+    return { result: false, message: "Document addition failed" };
+  }
+}

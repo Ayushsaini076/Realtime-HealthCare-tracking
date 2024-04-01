@@ -42,5 +42,18 @@ model User {
   maritalStatus MaritalStatus?
   profile_pic String
 
+  documents String[]
+
+  createdAt DateTime @default(now())
+}
+
+model Doctor{
+  id String @id @default(uuid())
+  name String
+  speciality String
+  experiance String
+  address String
+  profile_pic String
+
   createdAt DateTime @default(now())
 }

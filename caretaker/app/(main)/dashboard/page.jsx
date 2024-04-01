@@ -15,6 +15,7 @@ import MedicationLiquidIcon from "@mui/icons-material/MedicationLiquid";
 import { Bloodtype } from "@mui/icons-material";
 import { data2 } from "@/constants/graphdata";
 import { timeLabels } from "@/constants/graphdata";
+import Image from "next/image";
 
 Chart.register(...registerables);
 
@@ -111,18 +112,11 @@ const Doc = (props) => {
 
 const page = () => {
   return (
-    <div className=" bg-blue-50 h-[100%] w-[85vw]">
+    <div className=" bg-blue-50 h-[100%] w-[85vw] overflow-auto">
       {/* <h3 className=" text-2xl text-state-900">Dashboard</h3> */}
       <div className="flex justify-around pt-4">
-        <div className="w-3/4 h-48 pt-[1.5rem] pl-[10rem] border-4 border-indigo-500 bg-indigo-500 rounded-md">
-          <h2 className="text-white text-4xl">Welcome Neri Kwang!</h2>
-          <p className="text-white text-s mt-[0.5rem] mb-[0.5rem]">
-            Lets check your health with us. Care with <br />
-            your health from now to get better health
-          </p>
-          <button className="text-white text-center bg-sky-300 rounded-[0.3rem] h-[2.4rem] pl-[0.5rem] pr-[0.5rem] ">
-            Connect to Doctor
-          </button>
+        <div className="w-3/4 ">
+          <img src="/heading.png" className="w-3/4 " />
         </div>
         <div className="w-1/5 h-48 ml-[1rem] bg-white rounded-[0.4rem] p-[1.5rem]">
           <h4 className="text-black-300 text-xl font-bold">Profile</h4>

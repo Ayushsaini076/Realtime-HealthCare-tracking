@@ -9,6 +9,7 @@ import React, { useRef, useState } from "react";
 import toast from "react-hot-toast";
 import { useGoogleLogin } from "@react-oauth/google";
 import { CldImage, CldUploadWidget } from "next-cloudinary";
+import InsertPhotoOutlinedIcon from "@material-ui/icons/InsertPhotoOutlined";
 
 const countries = [
   "Afghanistan",
@@ -427,10 +428,6 @@ const SignUpPage = () => {
     console.log(image);
   };
 
-  const onUploadErrorHandler = () => {
-    console.log("hiiii");
-  };
-
   return (
     <div className="h-[100vh] w-[100vw] flex items-center justify-center bg-blue-50">
       <div className="absolute left-6 top-4 flex items-center ">
@@ -559,20 +556,28 @@ const SignUpPage = () => {
                   </div>
                 </div>
               </div>
-              <div className="w-[15vw] mx-5 my-2 border-2 border-gray-300 rounded-md group hover:border-gray-500">
-                <CldUploadWidget
-                  uploadPreset="jsm_caretakr"
-                  onSuccess={onUploadSuccessHandler}
-                >
-                  {({ open }) => {
-                    return (
-                      <button onClick={() => open()}>Upload an Image</button>
-                    );
-                  }}
-                </CldUploadWidget>
 
-                {image.publicId && (
-                  <div className="cursor-pointer overflow-hidden rounded-[10px]">
+              <div className="w-[15vw] mx-5 my-2 border-2 border-gray-300 rounded-md group hover:border-gray-500 flex items-center justify-center  flex-col h-fit p-5">
+                {!image.publicId ? (
+                  <div className="flex justify-center items-center flex-col">
+                    <CldUploadWidget
+                      uploadPreset="jsm_caretakr"
+                      onSuccess={onUploadSuccessHandler}
+                    >
+                      {({ open }) => {
+                        return (
+                          <InsertPhotoOutlinedIcon
+                            fontSize="large"
+                            className="text-4xl "
+                            onClick={() => open()}
+                          />
+                        );
+                      }}
+                    </CldUploadWidget>
+                    <p className=" mt-2">Upload your image</p>
+                  </div>
+                ) : (
+                  <div className="cursor-pointer overflow-hidden rounded-[10px] flex items-center justify-center ">
                     <CldImage
                       cloudName="dcnpnyqvb"
                       width="960"

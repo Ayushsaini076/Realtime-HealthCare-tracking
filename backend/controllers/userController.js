@@ -120,13 +120,26 @@ exports.loginUser = catchAsyncErrors(async (req, res, next) => {
   }
 });
 
-exports.logoutUser = catchAsyncErrors(async (req, res, next) => {
-  res.cookie("token", null, {
-    expires: new Date(Date.now()),
-    httpOnly: true,
+exports.addDocuments = catchAsyncErrors(async (req, res, next) => {
+  const user = req.user;
+  console.log(user);
+
+  console.log("incoming url", req.body);
+  const url = req.body;
+
+  let urlString = url.replace(/"/g, "");
+  console.log("thislkajf", urlString);
+
+  console.log("got here");
+  const newDoc = await prisma.user.update({
+    where: {
+      id: user.id,
+    },
+    data: {
+      documents: [...user.documents, urlString],
+    },
   });
   res.status(200).json({
     success: true,
-    message: "Logged Out",
   });
 });
