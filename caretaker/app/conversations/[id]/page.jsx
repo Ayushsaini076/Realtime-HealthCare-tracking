@@ -145,14 +145,14 @@ const page = () => {
               className="rounded-md"
             />
           ) : (
-            <div className="w-full h-full flex items-center justify-center text-black">
+            <div className="w-full h-full flex items-center justify-center text-white">
               Webcam is turned off
             </div>
           )}
         </div>
         {console.log(remoteStream)}
         <div className="flex flex-1 h-full items-center justify-center">
-          {remoteStream && (
+          {remoteStream ? (
             <Webcam
               className="rounded-md"
               width={600}
@@ -163,7 +163,10 @@ const page = () => {
                 }
               }}
             />
-          )}
+          ):<div className="w-full h-full flex items-center justify-center text-xl text-gray-200 ">
+          Press <span className="px-2" ><PhoneCall size={20} color="#e0e0e0" /></span> 
+           to make a call to your doctor
+        </div>}
         </div>
       </div>
       <div className="absolute bottom-[2.5rem]  left-0 w-full   mt-[1rem] flex justify-center gap-[4rem]">
@@ -182,9 +185,9 @@ const page = () => {
           onClick={handleVideo}
         >
           {video === true ? (
-            <Video size={30} color="#969595" />
+            <Video size={30} color="#e0e0e0" />
           ) : (
-            <VideoOff size={30} color="#e0e0e0" />
+            <VideoOff size={30} color="#969595" />
           )}
         </button>
         <button

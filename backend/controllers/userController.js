@@ -1,11 +1,11 @@
 const bcrypt = require("bcryptjs");
-const sendToken = require("../utlis/jwtToken");
 const prisma = new (require("@prisma/client").PrismaClient)();
 const { z } = require("zod");
 const axios = require("axios");
 
 const catchAsyncErrors = require("../middleware/catchAsyncErrors");
-const ErrorHandler = require("../utlis/errorHandler");
+const ErrorHandler = require("../utils/errorHandler");
+const sendToken = require("../utils/jwtToken");
 
 exports.registerUser = catchAsyncErrors(async (req, res, next) => {
   if (req.body.googleAccessToken) {
@@ -17,48 +17,66 @@ exports.registerUser = catchAsyncErrors(async (req, res, next) => {
         },
       }
     );
-    const firstName = response.data.given_name;
-    const lastName = response.data.family_name;
-    const email = response.data.email;
-    const name = `${firstName} ${lastName}`;
 
-    const alreadyExistUser = await prisma.user.findFirst({ where: { email } });
+    const email = response.data.email;
+    const name = response.data.name;
+    const profile_pic = response.data.picture;
+
+    const alreadyExistUser = await prisma.user.findUnique({ where: { email } });
     if (alreadyExistUser) {
-      return res.status(400).json({ message: "User already exist" });
+      return next(new ErrorHandler("User already exists", 400));
     }
 
-    const user = await prisma.user.create({
+    const newUser = await prisma.user.create({
       data: {
         email,
         name,
+        profile_pic,
       },
     });
 
-    sendToken(user, 201, res);
+    sendToken(newUser, 201, res);
   } else {
     const schema = z.object({
       name: z.string().min(1),
       email: z.string().min(1),
       password: z.string().min(8),
+      gender: z.string().min(1),
+      country: z.string().min(1),
+      height: z.number().min(1),
+      weight: z.number().min(1),
+      bloodGroup: z.string().min(1),
+      userRole: z.string().min(1),
+      maritalStatus: z.string().min(1),
+      profile_pic: z.string().min(1),
     });
 
     const safeParseResult = schema.safeParse(req.body);
     if (safeParseResult.error)
       return next(new ErrorHandler(safeParseResult.error, 400));
 
-    const { name, email, password } = req.body;
+    const user = req.body;
+    const userExist = await prisma.user.findUnique({
+      where: {
+        email: user.email,
+      },
+    });
+    if (userExist) return next(new ErrorHandler("User already exists", 400));
 
-    const hashedPassword = await bcrypt.hash(password, 10);
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(user.password, salt);
 
-    const user = await prisma.user.create({
+    const newUser = await prisma.user.create({
       data: {
-        name,
-        email,
+        ...user,
+        gender: user.gender.toUpperCase(),
+        userRole: user.userRole.toUpperCase(),
+        maritalStatus: user.maritalStatus.toUpperCase(),
         password: hashedPassword,
       },
     });
 
-    sendToken(user, 201, res);
+    sendToken(newUser, 201, res);
   }
 });
 
@@ -74,8 +92,8 @@ exports.loginUser = catchAsyncErrors(async (req, res, next) => {
     );
     const email = response.data.email;
 
-    const user = await prisma.user.findFirst({ where: { email } });
-    if (!user) return res.send(400).json({ message: "User doesn't exist" });
+    const user = await prisma.user.findUnique({ where: { email } });
+    if (!user) return next(new ErrorHandler("User doesn't exist", 400));
 
     sendToken(user, 200, res);
   } else {
@@ -89,7 +107,7 @@ exports.loginUser = catchAsyncErrors(async (req, res, next) => {
       return next(new ErrorHandler(safeParseResult.error, 400));
 
     const { email, password } = req.body;
-
+    console.log(req.body);
     const user = await prisma.user.findFirst({ where: { email: email } });
     console.log(user);
     if (!user) return next(new ErrorHandler("Invalid email or password", 401));
@@ -111,24 +129,4 @@ exports.logoutUser = catchAsyncErrors(async (req, res, next) => {
     success: true,
     message: "Logged Out",
   });
-});
-
-exports.getUserDetails = catchAsyncErrors(async (req, res, next) => {
-  const user = await prisma.user.findFirst({
-    where: { email: req.user.email },
-  });
-  res.status(200).json({ success: true, user });
-});
-
-exports.getUserProjects = catchAsyncErrors(async (req, res, next) => {
-  const user = await prisma.user.findFirst({
-    where: { email: req.user.email },
-  });
-  const userProjects = await prisma.project.findMany({
-    where: {
-      userId: user.id,
-    },
-    orderBy: { updatedAt: "desc" },
-  });
-  res.status(200).json({ success: true, userProjects });
 });
