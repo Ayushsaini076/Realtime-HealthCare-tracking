@@ -191,7 +191,7 @@ exports.getDocuments = catchAsyncErrors(async (req, res, next) => {
 
 exports.logoutUser = catchAsyncErrors(async (req, res, next) => {
   const user = req.user;
-  res.cookie("token", "", { httpOnly: true, expires: new Date(0) }).json({
+  res.cookie("token", null, { httpOnly: true, expires: new Date(0) }).json({
     success: true,
     user,
   });

@@ -77,9 +77,9 @@ const routes = [
 
 const Sidebar = () => {
   const pathname = usePathname();
-  const handleLogout = async() => {
-    await logout()
-  }
+  const handleLogout = async () => {
+    await logout();
+  };
   return (
     <div className="space-y-4 py-4 flex flex-col h-[100vh] bg-[#111827] text-white w-[100%]">
       <div className="px-3 py-2 flex-1 ">

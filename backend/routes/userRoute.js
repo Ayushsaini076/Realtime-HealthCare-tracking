@@ -4,11 +4,11 @@ const router = express.Router();
 const {
   registerUser,
   loginUser,
-  logoutUser,
   getUserChartData,
   getUserData,
   addDocuments,
   getDocuments,
+  logoutUser,
 } = require("../controllers/userController");
 const { isAuthenticated } = require("../middleware/auth");
 

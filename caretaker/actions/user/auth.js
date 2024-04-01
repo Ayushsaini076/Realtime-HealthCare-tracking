@@ -80,6 +80,7 @@ export async function login(user) {
 
 export async function logout() {
   try {
+    const { data } = await axios.get(`${base_url}/api/v1/logout`, config);
     return data.success;
   } catch (error) {
     console.log(error);
