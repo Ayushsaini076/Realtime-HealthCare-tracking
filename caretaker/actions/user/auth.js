@@ -52,11 +52,7 @@ export const signUpGoogle = async (accessToken) => {
 
 export async function register(user) {
   try {
-    const { data } = await axios.post(
-      `${base_url}/api/v1/register`,
-      user,
-      config
-    );
+    const { data } = await axios.post(`${base_url}/api/v1/register`, user);
     return {
       result: data.success,
       user: data.user,
@@ -75,7 +71,6 @@ export async function register(user) {
 export async function login(user) {
   try {
     console.log("user", user);
-    const { data } = await axios.post(`${base_url}/api/v1/login`, user, config);
     return { result: data.success, user: data.user, message: "Login Success " };
   } catch (error) {
     console.log(error);
@@ -83,13 +78,58 @@ export async function login(user) {
   }
 }
 
+export async function logout() {
+  try {
+    return data.success;
+  } catch (error) {
+    console.log(error);
+  }
+}
+
 export async function updateDocuments(url) {
   try {
-    console.log("here");
-    const { data } = await axios.patch(`${base_url}/api/v1/documents`, url);
+    console.log(url);
+    const { data } = await axios.patch(
+      `${base_url}/api/v1/documents`,
+      { url },
+      config
+    );
     return { result: data.success, message: "Document added" };
   } catch (error) {
     console.log(error);
-    return { result: false, message: "Document addition failed" };
+    return {
+      result: false,
+    };
+  }
+}
+
+export async function getDocuments() {
+  try {
+    const { data } = await axios.get(`${base_url}/api/v1/documents`, config);
+    return {
+      result: data.success,
+      documents: data.documents,
+      message: "Document added",
+    };
+  } catch (error) {
+    console.log(error);
+    return {
+      result: false,
+    };
+  }
+}
+
+export async function getUser() {
+  try {
+    const { data } = await axios.get(`${base_url}/api/v1/user`, config);
+    return {
+      result: data.success,
+      user: data.user,
+    };
+  } catch (error) {
+    console.log(error);
+    return {
+      result: false,
+    };
   }
 }

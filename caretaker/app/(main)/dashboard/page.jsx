@@ -112,20 +112,20 @@ const Doc = (props) => {
 };
 
 const page = () => {
-  // const [user, setUser] = useState();
-  const [loading, setLoading] = useState(false);
+  const [user, setUser] = useState();
+  const [loading, setLoading] = useState(true);
 
-  // useEffect(() => {
-  //   const getUserData = async () => {
-  //     const response = await getUser();
-  //     if (response) {
-  //       console.log(response.user);
-  //       setUser(response.user);
-  //       setLoading(false);
-  //     }
-  //   };
-  //   getUserData();
-  // }, []);
+  useEffect(() => {
+    const getUserData = async () => {
+      const response = await getUser();
+      if (response) {
+        console.log(response.user);
+        setUser(response.user);
+        setLoading(false);
+      }
+    };
+    getUserData();
+  }, []);
 
   return (
     <>
@@ -135,8 +135,8 @@ const page = () => {
         <div className=" bg-blue-50 h-[100%] w-[85vw]">
           {/* <h3 className=" text-2xl text-state-900">Dashboard</h3> */}
           <div className="flex justify-around pt-4">
-            <div className="w-3/4 h-48 pt-[1.5rem] pl-[10rem] border-4 border-indigo-500/10 bg-indigo-500 rounded-md">
-              <h2 className="text-white text-4xl">Welcome Sayantan Gain!</h2>
+            <div className="w-3/4 h-48 pt-[1.5rem] pl-[10rem] border-4 border-indigo-500 bg-indigo-500 rounded-md">
+              <h2 className="text-white text-4xl">Welcome {user.name}!</h2>
               <p className="text-white text-s mt-[0.5rem] mb-[0.5rem]">
                 Lets check your health with us. Care with <br />
                 your health from now to get better health
@@ -150,10 +150,10 @@ const page = () => {
               <div className="ml-[6rem] mt-[1rem]">
                 <img
                   className="h-[4rem] w-[4rem] rounded-[50%] border-red-400 bg-green-400 "
-                  src="/patient.png"
+                  src={user.profile_pic}
                   alt="profile"
                 />
-                <h5 className="text-m font-bold ">Sayantan</h5>
+                <h5 className="text-m font-bold ">{user.name}</h5>
                 <p>Hello guys</p>
               </div>
             </div>

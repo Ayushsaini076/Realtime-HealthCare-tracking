@@ -2,6 +2,7 @@ const bcrypt = require("bcryptjs");
 const prisma = new (require("@prisma/client").PrismaClient)();
 const { z } = require("zod");
 const axios = require("axios");
+const client = require("../config/clickHouse");
 
 const catchAsyncErrors = require("../middleware/catchAsyncErrors");
 const ErrorHandler = require("../utils/errorHandler");
@@ -122,24 +123,76 @@ exports.loginUser = catchAsyncErrors(async (req, res, next) => {
 
 exports.addDocuments = catchAsyncErrors(async (req, res, next) => {
   const user = req.user;
-  console.log(user);
 
-  console.log("incoming url", req.body);
-  const url = req.body;
-
-  let urlString = url.replace(/"/g, "");
-  console.log("thislkajf", urlString);
-
-  console.log("got here");
+  const url = req.body.url;
   const newDoc = await prisma.user.update({
     where: {
       id: user.id,
     },
     data: {
-      documents: [...user.documents, urlString],
+      documents: [...user.documents, url],
     },
   });
   res.status(200).json({
     success: true,
+  });
+});
+
+exports.getUserChartData = catchAsyncErrors(async (req, res, next) => {
+  const glucoseData = await client.query({
+    query: `SELECT * FROM health_data WHERE title = 'glucose' LIMIT 5`,
+  });
+  const rawGlucose = await glucoseData.json();
+
+  const systolicData = await client.query({
+    query: `SELECT * FROM health_data WHERE title = 'systolic' LIMIT 5`,
+  });
+  const rawSystolic = await systolicData.json();
+
+  const diastolicData = await client.query({
+    query: `SELECT * FROM health_data WHERE title = 'diastolic' LIMIT 5`,
+  });
+  const rawDiastolic = await diastolicData.json();
+
+  const heartRateData = await client.query({
+    query: `SELECT * FROM health_data WHERE title = 'heartRate' LIMIT 5`,
+  });
+  const rawHeartRate = await heartRateData.json();
+
+  const cholesterolData = await client.query({
+    query: `SELECT * FROM health_data WHERE title = 'cholesterol' LIMIT 5`,
+  });
+  const rawCholesterol = await cholesterolData.json();
+
+  return res.status(200).json({
+    glucose: rawGlucose,
+    systolic: rawSystolic,
+    diastolic: rawDiastolic,
+    heartRate: rawHeartRate,
+    cholesterol: rawCholesterol,
+  });
+});
+
+exports.getUserData = catchAsyncErrors(async (req, res, next) => {
+  const user = req.user;
+  res.status(200).json({
+    success: true,
+    user,
+  });
+});
+
+exports.getDocuments = catchAsyncErrors(async (req, res, next) => {
+  const user = req.user;
+  res.status(200).json({
+    success: true,
+    documents: user.documents,
+  });
+});
+
+exports.logoutUser = catchAsyncErrors(async (req, res, next) => {
+  const user = req.user;
+  res.cookie("token", "", { httpOnly: true, expires: new Date(0) }).json({
+    success: true,
+    user,
   });
 });

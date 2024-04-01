@@ -14,7 +14,6 @@ import { useRouter } from "next/navigation";
 import { usePathname } from "next/navigation";
 
 const page = () => {
-
   const router = useRouter();
 
   const [video, setVideo] = useState(true);
@@ -69,9 +68,9 @@ const page = () => {
       })
       .catch((err) => console.error(err));
 
-      newsocket.on('navigateBack',()=>{
-        router.back();
-      })
+    newsocket.on("navigateBack", () => {
+      router.back();
+    });
 
     return () => {
       newsocket.disconnect();
@@ -116,23 +115,19 @@ const page = () => {
     setVideo(!video);
   };
   // bg-[#111827]
-  const handleCallCut=()=>{
-    if(peer){
+  const handleCallCut = () => {
+    if (peer) {
       peer.destroy();
     }
 
-    if(socket){
+    if (socket) {
       // socket.emit('disconnect');
-      socket.emit('navigateBack')
+      socket.emit("navigateBack");
       socket.disconnect();
     }
-    
-    
 
     router.back();
-    
-
-  }
+  };
   return (
     <div className="bg-cyan-50 h-screen w-full overflow-auto p-5 flex relative">
       <div className="w-full h-full bg-[#111827] flex p-8 rouned-md gap-7 ">
@@ -140,9 +135,10 @@ const page = () => {
           {video == true ? (
             <Webcam
               mirrored={true}
-              width={600}
+              // width={600}
               audio={mic}
               className="rounded-md"
+              style={{ width: "80%" }}
             />
           ) : (
             <div className="w-full h-full flex items-center justify-center text-white">
@@ -155,18 +151,23 @@ const page = () => {
           {remoteStream ? (
             <Webcam
               className="rounded-md"
-              width={600}
               autoPlay
               ref={(ref) => {
                 if (ref) {
                   ref.srcObject = remoteStream;
                 }
               }}
+              style={{ width: "80%" }}
             />
-          ):<div className="w-full h-full flex items-center justify-center text-xl text-gray-200 ">
-          Press <span className="px-2" ><PhoneCall size={20} color="#e0e0e0" /></span> 
-           to make a call to your doctor
-        </div>}
+          ) : (
+            <div className="w-full h-full flex items-center justify-center text-xl text-gray-200 ">
+              Press{" "}
+              <span className="px-2">
+                <PhoneCall size={20} color="#e0e0e0" />
+              </span>
+              to make a call to your doctor
+            </div>
+          )}
         </div>
       </div>
       <div className="absolute bottom-[2.5rem]  left-0 w-full   mt-[1rem] flex justify-center gap-[4rem]">
@@ -200,7 +201,7 @@ const page = () => {
           className="h-[4rem] w-[4rem] flex items-center justify-center border-1 rounded-[50%] bg-black"
           onClick={handleCallCut}
         >
-          <PhoneOff size={30} color="red"/>
+          <PhoneOff size={30} color="red" />
         </button>
       </div>
     </div>

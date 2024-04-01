@@ -10,7 +10,8 @@ import { CldImage, CldUploadWidget } from "next-cloudinary";
 // import useLocalStorage from "react-use-localstorage";
 import Image from "next/image";
 import { data } from "autoprefixer";
-import { updateDocuments } from "@/actions/user/auth";
+import { getDocuments, updateDocuments } from "@/actions/user/auth";
+import toast from "react-hot-toast";
 
 const page = () => {
   const [imageUrl, setImageUrl] = useState([]);
@@ -24,7 +25,7 @@ const page = () => {
 
   const addDocument = async (url) => {
     const response = await updateDocuments(url);
-    if (response) {
+    if (response.result) {
       console.log(response.result);
     }
   };
@@ -37,7 +38,6 @@ const page = () => {
       secureURL: result?.info?.secure_url,
     };
     if (newImage) {
-      console.log(newImage);
       //put newImage.secureURL in database
       addDocument(newImage.secureURL);
       setImageUrl((prevImageUrl) => [...prevImageUrl, newImage.secureURL]);
@@ -45,8 +45,16 @@ const page = () => {
   };
 
   useEffect(() => {
-    console.log(imageUrl);
-  }, [imageUrl]);
+    const getDocs = async () => {
+      const response = await getDocuments();
+      if (response.result) {
+        setImageUrl(response.documents);
+      } else {
+        console.log("error");
+      }
+    };
+    getDocs();
+  }, []);
 
   return (
     <div className=" bg-blue-50 h-screen w-[85vw] flex overflow-auto flex-row">
@@ -84,26 +92,23 @@ const page = () => {
 
           {true && (
             <div className=" grid grid-cols-3 grid-flow-row gap-5  p-[2rem]">
-              {imageUrl.map(
-                (url, index) =>
-                  image.publicId && (
-                    <div
-                      key={index}
-                      className="cursor-pointer overflow-hidden rounded-[10px]"
-                    >
-                      <CldImage
-                        key={index}
-                        cloudName="dcnpnyqvb"
-                        className="cursor-pointer overflow-hidden rounded-lg w-full"
-                        width="200"
-                        height="120"
-                        src={url}
-                        sizes="100vw"
-                        alt="Description of my image"
-                      />
-                    </div>
-                  )
-              )}
+              {imageUrl.map((url, index) => (
+                <div
+                  key={index}
+                  className="cursor-pointer overflow-hidden rounded-[10px]"
+                >
+                  <CldImage
+                    key={index}
+                    cloudName="dcnpnyqvb"
+                    className="cursor-pointer overflow-hidden rounded-lg w-full"
+                    width="200"
+                    height="120"
+                    src={url}
+                    sizes="100vw"
+                    alt="Description of my image"
+                  />
+                </div>
+              ))}
             </div>
           )}
         </div>
