@@ -19,10 +19,10 @@ const kafka = new Kafka({
 const producer = kafka.producer();
 
 async function publishUserData({ key, dataPoint }) {
-  console.log("called")
+  console.log("called", key, dataPoint);
   await producer.send({
     topic: "user-data",
-    messages: [{ key: key, value: JSON.stringify({ title:key, dataPoint }) }],
+    messages: [{ key: key, value: JSON.stringify({ title: key, dataPoint }) }],
   });
 }
 
@@ -91,7 +91,7 @@ function generateBloodPressure() {
 
 async function init() {
   await producer.connect();
-const i = 1
+  const i = 1;
   const generateHealthData = async () => {
     // console.log(i);
     // i++
@@ -122,9 +122,8 @@ const i = 1
       key: "diastolic",
       dataPoint: bloodPressure.diastolic,
     });
-
   };
-  generateHealthData()
+  generateHealthData();
   setInterval(generateHealthData, 900000);
 }
 
