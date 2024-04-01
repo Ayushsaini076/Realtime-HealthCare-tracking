@@ -1,7 +1,7 @@
 "use client";
 import { registerables, Chart } from "chart.js";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Line } from "react-chartjs-2";
 
 import { Download } from "lucide-react";
@@ -15,7 +15,8 @@ import MedicationLiquidIcon from "@mui/icons-material/MedicationLiquid";
 import { Bloodtype } from "@mui/icons-material";
 import { data2 } from "@/constants/graphdata";
 import { timeLabels } from "@/constants/graphdata";
-import Image from "next/image";
+import { getUser } from "@/actions/user/auth";
+import Link from "next/link";
 
 Chart.register(...registerables);
 
@@ -94,8 +95,8 @@ const Graph = ({ data }) => {
 
 const Doc = (props) => {
   return (
-    <div className="flex justify-between">
-      <div className="flex">
+    <div className="flex justify-between mt-5">
+      <div className="flex mt-5">
         <File className="mr-[1rem]" size={35} color="blue" />
         <div>
           <h4 className="font-bold text-md text-black">{props.heading}</h4>
@@ -111,73 +112,103 @@ const Doc = (props) => {
 };
 
 const page = () => {
+  // const [user, setUser] = useState();
+  const [loading, setLoading] = useState(false);
+
+  // useEffect(() => {
+  //   const getUserData = async () => {
+  //     const response = await getUser();
+  //     if (response) {
+  //       console.log(response.user);
+  //       setUser(response.user);
+  //       setLoading(false);
+  //     }
+  //   };
+  //   getUserData();
+  // }, []);
+
   return (
-    <div className=" bg-blue-50 h-[100%] w-[85vw] overflow-auto">
-      {/* <h3 className=" text-2xl text-state-900">Dashboard</h3> */}
-      <div className="flex justify-around pt-4">
-        <div className="w-3/4 ">
-          <img src="/heading.png" className="w-3/4 " />
-        </div>
-        <div className="w-1/5 h-48 ml-[1rem] bg-white rounded-[0.4rem] p-[1.5rem]">
-          <h4 className="text-black-300 text-xl font-bold">Profile</h4>
-          <div className="ml-[6rem] mt-[1rem]">
-            <img
-              className="h-[4rem] w-[4rem] rounded-[50%] border-red-400 bg-green-400 "
-              src=""
-              alt=""
-            />
-            <h5 className="text-m font-bold ">Neri Kwang</h5>
-            <p>Hello guys</p>
-          </div>
-        </div>
-      </div>
-      <div className="flex justify-evenly mt-[3rem]">
-        {arr.map((item) => (
-          <Card
-            key={item.id}
-            id={item.id}
-            img1={item.icon}
-            img2={item.icon2}
-            name={item.parameter}
-            val={item.value}
-            desc={item.description}
-          />
-        ))}
-      </div>
-      <div className="mt-[3rem] flex m-3 h-[47%] ">
-        <div className="w-1/2 h-[100%] ml-[1rem] bg-white rounded-[0.4rem] p-[1rem] ">
-          <div className="flex justify-between">
-            <div>
-              <h3 className="text-2xl font-bold">Performance Heart Rate</h3>
-              <p className="text-sm text-grey-200">1-3 December 2023</p>
+    <>
+      {loading ? (
+        <div className="text-center mt-[2rem]">Loading...</div>
+      ) : (
+        <div className=" bg-blue-50 h-[100%] w-[85vw]">
+          {/* <h3 className=" text-2xl text-state-900">Dashboard</h3> */}
+          <div className="flex justify-around pt-4">
+            <div className="w-3/4 h-48 pt-[1.5rem] pl-[10rem] border-4 border-indigo-500/10 bg-indigo-500 rounded-md">
+              <h2 className="text-white text-4xl">Welcome Sayantan Gain!</h2>
+              <p className="text-white text-s mt-[0.5rem] mb-[0.5rem]">
+                Lets check your health with us. Care with <br />
+                your health from now to get better health
+              </p>
+              <button className="text-white text-center bg-sky-300 rounded-[0.3rem] h-[2.4rem] pl-[0.5rem] pr-[0.5rem] ">
+                <Link href="/dashboard/doctors">Connect to Doctor</Link>
+              </button>
             </div>
-            <div>
-              <div className="flex justify-between h-[3rem] p-2 bg-violet-50 items-center">
-                <p className="text-violet-800 text-xl text-bold">72 bmp</p>
-                <p className="ml-2 text-grey-300 text-md">Average</p>
+            <div className="w-1/5 h-48 ml-[1rem] bg-white rounded-[0.4rem] p-[1.5rem]">
+              <h4 className="text-black-300 text-xl font-bold">Profile</h4>
+              <div className="ml-[6rem] mt-[1rem]">
+                <img
+                  className="h-[4rem] w-[4rem] rounded-[50%] border-red-400 bg-green-400 "
+                  src="/patient.png"
+                  alt="profile"
+                />
+                <h5 className="text-m font-bold ">Sayantan</h5>
+                <p>Hello guys</p>
               </div>
             </div>
           </div>
-          <div>
-            <Graph data={data2} />
-          </div>
-        </div>
-        <div className="w-1/2 h-[100%] bg-white rounded-[0.4rem] p-[1rem] ml-[1rem]">
-          <div className="flex justify-between">
-            <div>
-              <h3 className="text-2xl font-bold">Health Reports Document</h3>
-              <p className="text-sm text-grey-200">5-7 December 2023</p>
-            </div>
-            <p className="text-violet-500 text-md">View All</p>
-          </div>
-          <div className="mt-[1rem]">
-            {docs.map((item) => (
-              <Doc key={item.id} heading={item.heading} size={item.size} />
+          <div className="flex justify-evenly mt-[3rem]">
+            {arr.map((item) => (
+              <Card
+                key={item.id}
+                id={item.id}
+                img1={item.icon}
+                img2={item.icon2}
+                name={item.parameter}
+                val={item.value}
+                desc={item.description}
+              />
             ))}
           </div>
+          <div className="mt-[3rem] flex m-3 h-[47%] ">
+            <div className="w-1/2 h-[100%] ml-[1rem] bg-white rounded-[0.4rem] p-[1rem] ">
+              <div className="flex justify-between">
+                <div>
+                  <h3 className="text-2xl font-bold">Performance Heart Rate</h3>
+                  <p className="text-sm text-grey-200">1-3 December 2023</p>
+                </div>
+                <div>
+                  <div className="flex justify-between h-[3rem] p-2 bg-violet-50 items-center">
+                    <p className="text-violet-800 text-xl text-bold">72 bmp</p>
+                    <p className="ml-2 text-grey-300 text-md">Average</p>
+                  </div>
+                </div>
+              </div>
+              <div>
+                <Graph data={data2} />
+              </div>
+            </div>
+            <div className="w-1/2 h-[100%] bg-white rounded-[0.4rem] p-[1rem] ml-[1rem]">
+              <div className="flex justify-between">
+                <div>
+                  <h3 className="text-2xl font-bold">
+                    Health Reports Document
+                  </h3>
+                  <p className="text-sm text-grey-200">5-7 December 2023</p>
+                </div>
+                <p className="text-violet-500 text-md">View All</p>
+              </div>
+              <div className="mt-[1rem]">
+                {docs.map((item) => (
+                  <Doc key={item.id} heading={item.heading} size={item.size} />
+                ))}
+              </div>
+            </div>
+          </div>
         </div>
-      </div>
-    </div>
+      )}
+    </>
   );
 };
 

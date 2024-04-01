@@ -1,7 +1,7 @@
 export const visitedDoctors = [
   {
     id: "15",
-    img: "/doc1",
+    img: "/doc1.jpg",
     spec: "Rheumatologist",
     name: "Dr. Lily White",
     exp: "16 Years",
@@ -11,7 +11,7 @@ export const visitedDoctors = [
   },
   {
     id: "16",
-    img: "/doc1",
+    img: "/doc-2.jpg",
     spec: "ENT Specialist",
     name: "Dr. Benjamin Adams",
     exp: "20 Years",
@@ -21,7 +21,7 @@ export const visitedDoctors = [
   },
   {
     id: "17",
-    img: "/doc1",
+    img: "/doc-3.jpg",
     spec: "Hematologist",
     name: "Dr. Sophia Brown",
     exp: "19 Years",

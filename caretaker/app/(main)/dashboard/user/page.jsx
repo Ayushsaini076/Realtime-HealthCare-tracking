@@ -80,8 +80,8 @@ const page = () => {
               src="/patient.png"
               alt="patient photo"
             />
-            <h5 className="text-xl font-bold ">{user.name}</h5>
-            <h5 className="text-xl font-bold ">{user.age} Y.O</h5>
+            <h5 className="text-xl font-bold ">Sayantan Gain</h5>
+            <h5 className="text-xl font-bold ">21 Y.O</h5>
             <div className="px-3 py-2 flex-1">
               <Link
                 href="/history"
@@ -94,30 +94,26 @@ const page = () => {
               </Link>
             </div>
           </div>
-          <div className="flex justify-start pl-3 flex-col flex-1">
-            <div>
-              <div className="text-sm">Adress:</div>
-              <div className=" font-bold text-xl pt-2">{user.address}</div>
-            </div>
+          <div className="flex justify-start pl-3 flex-col flex-1 pb-5">
             <div className="pt-3">
-              <div className="text-sm">State:</div>
-              <div className=" font-bold text-xl pt-2">{user.state}</div>
+              <div className="text-sm">Country:</div>
+              <div className=" font-bold text-xl pt-2">India</div>
             </div>
             <div className="pt-3">
               <div className="text-sm">Gender:</div>
-              <div className=" font-bold text-xl pt-2">{user.gender}</div>
+              <div className=" font-bold text-xl pt-2">Male</div>
             </div>
             <div className="pt-3">
               <div className="text-sm">Height:</div>
-              <div className=" font-bold text-xl pt-2">{user.height} ft</div>
+              <div className=" font-bold text-xl pt-2">6 ft</div>
             </div>
             <div className="pt-3">
               <div className="text-sm">Weight:</div>
-              <div className=" font-bold text-xl pt-2">{user.weight} kg</div>
+              <div className=" font-bold text-xl pt-2">85 kg</div>
             </div>
             <div className="pt-3">
               <div className="text-sm">Blood Group:</div>
-              <div className=" font-bold text-xl pt-2">{user.bloodGroup}</div>
+              <div className=" font-bold text-xl pt-2">B+</div>
             </div>
           </div>
         </div>
