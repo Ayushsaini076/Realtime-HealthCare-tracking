@@ -5,15 +5,15 @@ const {
     registerUser,
     loginUser,
     logoutUser,
-    getUserDetails,
-    getUserProjects,
+    getUserChartData,
+    getUserData,
   } = require("../controllers/userController");
-//   const { isAuthenticated } = require("../middleware/auth");
+  const { isAuthenticated } = require("../middleware/auth");
   
   router.route("/register").post(registerUser);
   router.route("/login").post(loginUser);
-//   router.route("/logout").get(logoutUser);
-//   router.route("/user").get(isAuthenticated, getUserDetails);
-//   router.route("/projects").get(isAuthenticated, getUserProjects);
+  router.route("/chartData").get(isAuthenticated, getUserChartData);
+  router.route("/logout").get(logoutUser);
+  router.route("/user").get(isAuthenticated, getUserData);
 
 module.exports = router;

@@ -20,7 +20,7 @@ const SignInPage = () => {
     const accessToken = tokenResponse.access_token;
     const { result, message } = await signInGoogle(accessToken);
     if (result) {
-      router.push(`/dashboard/${result.id}`);
+      router.push(`/dashboard/`);
     } else {
       toast.error(message);
     }
@@ -39,7 +39,7 @@ const SignInPage = () => {
       console.log(user.email, user.password);
       const { result, message } = await login({ email, password });
       if (result) {
-        router.push(`/dashboard/${""}`);
+        router.push(`/dashboard`);
       } else {
         toast.error(message);
       }

@@ -2,6 +2,7 @@ const bcrypt = require("bcryptjs");
 const prisma = new (require("@prisma/client").PrismaClient)();
 const { z } = require("zod");
 const axios = require("axios");
+const client = require("../config/clickHouse");
 
 const catchAsyncErrors = require("../middleware/catchAsyncErrors");
 const ErrorHandler = require("../utils/errorHandler");
@@ -24,7 +25,7 @@ exports.registerUser = catchAsyncErrors(async (req, res, next) => {
 
     const alreadyExistUser = await prisma.user.findUnique({ where: { email } });
     if (alreadyExistUser) {
-      return next(new ErrorHandle("User already exists", 400));
+      return next(new ErrorHandler("User already exists", 400));
     }
 
     const newUser = await prisma.user.create({
@@ -92,12 +93,10 @@ exports.loginUser = catchAsyncErrors(async (req, res, next) => {
     const email = response.data.email;
 
     const user = await prisma.user.findUnique({ where: { email } });
-    if (!user) return next(new ErrorHandler( "User doesn't exist" , 400));
+    if (!user) return next(new ErrorHandler("User doesn't exist", 400));
 
     sendToken(user, 200, res);
-
   } else {
-    
     const schema = z.object({
       email: z.string().min(1),
       password: z.string().min(1),
@@ -130,4 +129,53 @@ exports.logoutUser = catchAsyncErrors(async (req, res, next) => {
     success: true,
     message: "Logged Out",
   });
+});
+
+exports.getUserChartData = catchAsyncErrors(async (req, res, next) => {
+  const glucoseData = await client.query({
+    query: `SELECT * FROM health_data WHERE title = 'glucose' LIMIT 5`,
+  });
+  const rawGlucose = await glucoseData.json();
+
+  const systolicData = await client.query({
+    query: `SELECT * FROM health_data WHERE title = 'systolic' LIMIT 5`,
+  });
+  const rawSystolic = await systolicData.json();
+
+  const diastolicData = await client.query({
+    query: `SELECT * FROM health_data WHERE title = 'diastolic' LIMIT 5`,
+  });
+  const rawDiastolic = await diastolicData.json();
+
+  const heartRateData = await client.query({
+    query: `SELECT * FROM health_data WHERE title = 'heartRate' LIMIT 5`,
+  });
+  const rawHeartRate = await heartRateData.json();
+
+  const cholesterolData = await client.query({
+    query: `SELECT * FROM health_data WHERE title = 'cholesterol' LIMIT 5`,
+  });
+  const rawCholesterol = await cholesterolData.json();
+
+  return res
+    .status(200)
+    .json({
+      glucose: rawGlucose,
+      systolic: rawSystolic,
+      diastolic: rawDiastolic,
+      heartRate: rawHeartRate,
+      cholesterol: rawCholesterol,
+    });
+});
+
+
+exports.getUserData = catchAsyncErrors(async (req, res, next) => {
+  
+  const user = req.user;
+  res
+    .status(200)
+    .json({
+      success: true,
+      user
+    });
 });

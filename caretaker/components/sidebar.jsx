@@ -16,6 +16,7 @@ import {
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { logout } from "@/actions/user/auth";
 
 const montserrat = Montserrat({
   weight: "600",
@@ -73,8 +74,12 @@ const routes = [
     color: "text-red-500",
   },
 ];
+
 const Sidebar = () => {
   const pathname = usePathname();
+  const handleLogout = async() => {
+    await logout()
+  }
   return (
     <div className="space-y-4 py-4 flex flex-col h-[100vh] bg-[#111827] text-white w-[100%]">
       <div className="px-3 py-2 flex-1 ">
@@ -87,8 +92,13 @@ const Sidebar = () => {
           </h1>
         </Link>
         <div className="space-y-2 ">
-          {routes.map((route) => (
+          {routes.map((route, i) => (
             <Link
+              onClick={() => {
+                if (i == 6) {
+                  handleLogout();
+                }
+              }}
               href={route.href}
               key={route.href}
               className={cn(

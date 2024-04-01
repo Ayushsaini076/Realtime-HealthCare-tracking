@@ -74,3 +74,27 @@ export async function login(user) {
     return { result: false, message: "Login Failed" };
   }
 }
+
+export async function logout() {
+  try {
+    const { data } = await axios.get(`${base_url}/api/v1/logout`, config);
+    return data.success;
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+export async function getUser() {
+  try {
+    const { data } = await axios.get(`${base_url}/api/v1/user`, config);
+    return {
+      result: data.success, user: data.user
+    }
+  } catch (error) {
+    console.log(error);
+    return {
+      result: false,
+    }
+  }
+}
+

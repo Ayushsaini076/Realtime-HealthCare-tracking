@@ -1,8 +1,8 @@
 const jwt = require("jsonwebtoken");
 const prisma = new (require("@prisma/client").PrismaClient)();
 
-const ErrorHandler = require("../utlis/errorHandler");
 const catchAsyncErrors = require("./catchAsyncErrors");
+const ErrorHandler = require("../utils/errorHandler");
 
 exports.isAuthenticated = catchAsyncErrors(async (req, res, next) => {
   const { token } = req.cookies;

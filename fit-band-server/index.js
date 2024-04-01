@@ -1,27 +1,28 @@
 const fs = require("fs");
 const { Kafka } = require("kafkajs");
 const path = require("path");
-require('dotenv').config()
+require("dotenv").config();
 
 const kafka = new Kafka({
-    clientId: `fit-band-server`,
-    brokers: [process.env.KAFKA_BROKER],
-    ssl: {
-        ca: [fs.readFileSync(path.join(__dirname, 'kafka.pem'), 'utf-8')]
-    },
-    sasl: {
-        username: process.env.KAFKA_USERNAME,
-        password: process.env.KAFKA_PASSWORD,
-        mechanism: "plain",
-    }
+  clientId: `fit-band-server`,
+  brokers: [process.env.KAFKA_BROKER],
+  ssl: {
+    ca: [fs.readFileSync(path.join(__dirname, "kafka.pem"), "utf-8")],
+  },
+  sasl: {
+    username: process.env.KAFKA_USERNAME,
+    password: process.env.KAFKA_PASSWORD,
+    mechanism: "plain",
+  },
 });
 
 const producer = kafka.producer();
 
-async function publishUserData({ key, time, value }) {
+async function publishUserData({ key, dataPoint }) {
+  console.log("called")
   await producer.send({
     topic: "user-data",
-    messages: [{ key: key, value: JSON.stringify({ time, value }) }],
+    messages: [{ key: key, value: JSON.stringify({ title:key, dataPoint }) }],
   });
 }
 
@@ -90,30 +91,41 @@ function generateBloodPressure() {
 
 async function init() {
   await producer.connect();
-
+const i = 1
   const generateHealthData = async () => {
-
-    const curTime = Date.now();
-
+    // console.log(i);
+    // i++
     const heartRate = generateHeartRate();
-    await publishUserData({ key:"heartRate", curTime, heartRate });
-
     const cholesterolLevel = generateCholesterolLevel();
-    await publishUserData({key:"cholesterol", curTime, cholesterolLevel });
-    
     const glucoseLevel = generateGlucoseLevel();
-    await publishUserData({key:"glucose", curTime, glucoseLevel });
-    
     const bloodPressure = generateBloodPressure();
-    await publishUserData({key:"bloodPressure", curTime, bloodPressure });
 
-    console.log(curTime, heartRate);
-    console.log(curTime, cholesterolLevel);
-    console.log(curTime, glucoseLevel);
-    console.log(curTime, bloodPressure);
+    await publishUserData({
+      key: "heartRate",
+      dataPoint: heartRate,
+    });
+
+    await publishUserData({
+      key: "cholesterol",
+      dataPoint: cholesterolLevel,
+    });
+
+    await publishUserData({
+      key: "glucose",
+      dataPoint: glucoseLevel,
+    });
+    await publishUserData({
+      key: "systolic",
+      dataPoint: bloodPressure.systolic,
+    });
+    await publishUserData({
+      key: "diastolic",
+      dataPoint: bloodPressure.diastolic,
+    });
+
   };
-
-  setInterval(generateHealthData, 5000);
+  generateHealthData()
+  setInterval(generateHealthData, 900000);
 }
 
 init();
