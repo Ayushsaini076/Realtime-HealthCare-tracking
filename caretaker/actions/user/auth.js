@@ -52,7 +52,11 @@ export const signUpGoogle = async (accessToken) => {
 
 export async function register(user) {
   try {
-    const { data } = await axios.post(`${base_url}/api/v1/register`, user);
+    const { data } = await axios.post(
+      `${base_url}/api/v1/register`,
+      user,
+      config
+    );
     return {
       result: data.success,
       user: data.user,
@@ -70,6 +74,7 @@ export async function register(user) {
 
 export async function login(user) {
   try {
+    const { data } = await axios.post(`${base_url}/api/v1/login`, user, config);
     console.log("user", user);
     return { result: data.success, user: data.user, message: "Login Success " };
   } catch (error) {
